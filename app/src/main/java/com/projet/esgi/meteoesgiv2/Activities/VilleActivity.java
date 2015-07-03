@@ -182,10 +182,9 @@ public class VilleActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_apropos) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Look at this dialog!")
+            builder.setMessage("@string/aPropos")
                     .setCancelable(false)
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {

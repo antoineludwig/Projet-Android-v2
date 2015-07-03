@@ -18,6 +18,6 @@
     <string name="temp">-°C</string>
     <string name="description"></string>
 
-    <string name="aPropos">Cette application a été développer dans le cadre d'un projet Android en 5ème année à l'ESGI</string>
+    <string name="aPropos">Cette application a été développer dans le cadre d\'un projet Android en 5ème année à l\'ESGI</string>
 
 </resources>

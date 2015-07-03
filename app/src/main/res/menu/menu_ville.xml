@@ -2,10 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.projet.esgi.meteoesgial1.Activities.VilleActivity">
 
-    <item android:id="@+id/action_ajout_ville"
-        android:title="@string/action_ajout_ville"
-        android:orderInCategory="100" />
-
     <item android:id="@+id/action_apropos"
         android:title="@string/action_apropos"
         android:orderInCategory="100" />

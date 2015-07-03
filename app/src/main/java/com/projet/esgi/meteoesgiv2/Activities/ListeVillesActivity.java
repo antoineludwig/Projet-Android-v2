@@ -1,18 +1,25 @@
 package com.projet.esgi.meteoesgiv2.Activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Switch;
+import android.widget.Toast;
 
+import com.projet.esgi.meteoesgiv2.MeteoAPI.CurrentWeatherTask;
 import com.projet.esgi.meteoesgiv2.MeteoApplication;
 import com.projet.esgi.meteoesgiv2.R;
 import com.projet.esgi.meteoesgiv2.adapter.AdapterListeVille;
+import com.projet.esgi.meteoesgiv2.modele.MeteoData;
 import com.projet.esgi.meteoesgiv2.modele.Ville;
 
 import java.util.ArrayList;
@@ -33,7 +40,6 @@ public class ListeVillesActivity extends Activity {
         setContentView(R.layout.activity_liste_villes);
 
 
-        //DEBUG
         lesVilles = ((MeteoApplication)getApplication()).getLesVilles();
         initListVille(lesVilles,false);
 
@@ -58,8 +64,62 @@ public class ListeVillesActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        //menu a propos
+        if (id == R.id.action_apropos) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(getResources().getString(R.string.aPropos))
+                    .setCancelable(false)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
+            return true;
+        }
+
+        //menu ajout d'une ville
+        if(id == R.id.action_ajout_ville){
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+            alert.setTitle("Ajouter une ville");
+            alert.setMessage("Veuillez saisir le nom de la ville");
+
+            final EditText input = new EditText(this);
+            alert.setView(input);
+
+            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    String nomVille = input.getText().toString();
+
+                    //ajout de la ville si elle existe
+                    CurrentWeatherTask searchTask = new CurrentWeatherTask();
+                    searchTask.execute(nomVille, getBaseContext().getString(R.string.langue_API));
+                    try{
+                        MeteoData m = searchTask.get();
+                        if(null == m){
+
+                        }else{
+                            Ville v = new Ville();
+                            v.setNom(nomVille);
+                            v.setMeteoData(m);
+                            lesVillesFavoris.add(v);
+                        }
+                    }catch (Exception e){
+                        Log.e("VilleActivity", "Erreur lors de l'exécution de la tâche asynchrone", e);
+                    }
+
+
+                    Toast.makeText(getApplicationContext(),nomVille,Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    // Canceled.
+                }
+            });
+            alert.show();
             return true;
         }
 
@@ -162,21 +222,9 @@ public class ListeVillesActivity extends Activity {
     }
 
     public void deleteVille(int index){
-
-
         lesVillesFavoris.get(index).setFavoris(false);
-
         lesVillesFavoris.remove(index);
-
-
-
         adapterVille.notifyDataSetChanged();
-        //((MeteoApplication)getApplication()).removeFavoris();
-
-
         listeDesVilles.deferNotifyDataSetChanged();
-
-
-
     }
 }
