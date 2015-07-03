@@ -127,10 +127,12 @@ public class ListeVillesActivity extends Activity {
     }
 
     public void onVilleChoisieClick(int position){
-        Intent intent = new Intent(this,VilleActivity.class);
+        /*Intent intent = new Intent(this,VilleActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("ville", (java.io.Serializable) listeDesVilles.getItemAtPosition(position));
         intent.putExtras(bundle);
+        startActivity(intent);*/
+        Intent intent = new Intent(this,ScreenSlidePagerActivity.class);
         startActivity(intent);
     }
 

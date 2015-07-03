@@ -7,17 +7,18 @@
     <string name="title_activity_liste_ville_favoris">Liste Favoris</string>
     <string name="title_activity_liste_ville">Liste des villes</string>
 
-    <!--MENU-->
+    <!-- MENU -->
     <string name="action_ajout_ville">Ajouter une nouvelle ville à la liste</string>
     <string name="action_apropos">A propos</string>
-
     <string name="erreur_recup_donnees">Erreur lors de la récupération des données</string>
     <string name="langue_API">fr</string>
     <string name="favoris">Favoris</string>
     <string name="retour">Retour</string>
     <string name="temp">-°C</string>
     <string name="description"></string>
-
     <string name="aPropos">Cette application a été développer dans le cadre d\'un projet Android en 5ème année à l\'ESGI</string>
+    <string name="title_activity_screen_slide_pager">ScreenSlidePagerActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
