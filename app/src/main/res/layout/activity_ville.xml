@@ -20,7 +20,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/retour"
-                android:id="@+id/retour"
+                android:id="@+id/retoura"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -32,7 +32,7 @@
                 android:textSize="30sp"
                 android:layout_marginLeft="15sp"
                 android:layout_marginRight="5sp"
-                android:id="@+id/nomVille"
+                android:id="@+id/nomVillea"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:textAlignment="center"
@@ -44,7 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/favoris"
-                android:id="@+id/favoris"
+                android:id="@+id/favorisa"
                 android:layout_alignBottom="@+id/retour"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
@@ -60,7 +60,7 @@
             <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="300dp"
-                android:id="@+id/logo"
+                android:id="@+id/logoa"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_centerHorizontal="true"
@@ -74,7 +74,7 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:textSize="50sp"
-                android:id="@+id/temperatureVille"
+                android:id="@+id/temperatureVillea"
                 android:layout_gravity="center"
                 android:gravity="center"/>
 
@@ -84,7 +84,7 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:textSize="25sp"
-                android:id="@+id/descriptionVille"
+                android:id="@+id/descriptionVillea"
                 android:layout_gravity="center"
                 android:gravity="center"/>
         </LinearLayout>

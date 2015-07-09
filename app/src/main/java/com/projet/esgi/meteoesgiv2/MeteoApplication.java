@@ -2,15 +2,18 @@ package com.projet.esgi.meteoesgiv2;
 
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.view.View;
 
 import com.projet.esgi.meteoesgiv2.modele.Ville;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class MeteoApplication extends Application{
     private static ArrayList<Ville> lesVilles = new ArrayList<Ville>();
     private static ArrayList<Ville> lesVillesFavoris = new ArrayList<Ville>();
-    private static final String PREF_FILE_NAME = "prefs";
+    private static final String PREF_FILE_NAME_VILLE = "villes";
+    private static final String PREF_FILE_NAME_FAV = "favs";
 
     @Override
     public void onCreate() {
@@ -20,7 +23,7 @@ public class MeteoApplication extends Application{
     }
 
     private void initListeVilles() {
-        lesVilles.add(new Ville("London"));
+        /*lesVilles.add(new Ville("London"));
         lesVilles.add(new Ville("Paris"));
         lesVilles.add(new Ville("Madrid"));
         lesVilles.add(new Ville("Berlin"));
@@ -41,10 +44,18 @@ public class MeteoApplication extends Application{
         lesVilles.add(new Ville("Athena"));
         lesVilles.add(new Ville("Kiev"));
         lesVilles.add(new Ville("Detroit"));
+*/
+        SharedPreferences pref = getSharedPreferences(PREF_FILE_NAME_VILLE, MODE_PRIVATE);
+        Map<String,?> keys = pref.getAll();
+
+        for(Map.Entry<String,?> entry : keys.entrySet()){
+            lesVilles.add(new Ville(entry.getValue().toString()));
+        }
     }
+
     public void initListeVillesFavoris() {
-        lesVillesFavoris.clear();
-        SharedPreferences pref = getSharedPreferences(PREF_FILE_NAME, MODE_PRIVATE);
+        /*lesVillesFavoris.clear();
+        SharedPreferences pref = getSharedPreferences(PREF_FILE_NAME_FAV, MODE_PRIVATE);
         for (Ville v : lesVilles){
             if(pref.contains(v.getNom())){
                 v.setFavoris(true);
@@ -53,6 +64,14 @@ public class MeteoApplication extends Application{
             else{
                 v.setFavoris(false);
             }
+        }*/
+        SharedPreferences pref = getSharedPreferences(PREF_FILE_NAME_FAV, MODE_PRIVATE);
+        Map<String,?> keys = pref.getAll();
+
+        for(Map.Entry<String,?> entry : keys.entrySet()){
+            Ville v = new Ville(entry.getValue().toString());
+            v.setFavoris(true);
+            lesVillesFavoris.add(v);
         }
     }
 
@@ -64,14 +83,28 @@ public class MeteoApplication extends Application{
     }
 
     public void addFavoris(Ville v){
-        SharedPreferences pref = getSharedPreferences(PREF_FILE_NAME, MODE_PRIVATE);
+        lesVillesFavoris.clear();
+        SharedPreferences pref = getSharedPreferences(PREF_FILE_NAME_FAV, MODE_PRIVATE);
         pref.edit().putString(v.getNom(),v.getNom()).commit();
         initListeVillesFavoris();
     }
 
     public void removeFavoris(Ville v){
-        SharedPreferences pref = getSharedPreferences(PREF_FILE_NAME, MODE_PRIVATE);
+        lesVillesFavoris.clear();
+        SharedPreferences pref = getSharedPreferences(PREF_FILE_NAME_FAV, MODE_PRIVATE);
         pref.edit().remove(v.getNom()).commit();
         initListeVillesFavoris();
+    }
+
+    public void addVille(Ville v){
+        SharedPreferences pref = getSharedPreferences(PREF_FILE_NAME_VILLE, MODE_PRIVATE);
+        pref.edit().putString(v.getNom(),v.getNom()).commit();
+        //initListeVillesFavoris();
+    }
+
+    public void removeVille(Ville v){
+        SharedPreferences pref = getSharedPreferences(PREF_FILE_NAME_VILLE, MODE_PRIVATE);
+        pref.edit().remove(v.getNom()).commit();
+        //initListeVillesFavoris();
     }
 }

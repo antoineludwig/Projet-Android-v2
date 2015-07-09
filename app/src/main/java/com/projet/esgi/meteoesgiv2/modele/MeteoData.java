@@ -18,6 +18,7 @@ public class MeteoData  implements Serializable {
     private double pressure;
     private double windSpeed;
     private double windDirection;
+    private String datePrevision;
 
     public MeteoData(){
         this.date = new Date().getTime();
@@ -108,6 +109,13 @@ public class MeteoData  implements Serializable {
         this.windDirection = windDirection;
     }
 
+    public String getDatePrevision() {
+        return datePrevision;
+    }
+
+    public void setDatePrevision(String datePrevision) {
+        this.datePrevision = datePrevision;
+    }
 
     //Fonctions spécifiques
     public String getTempCelcius(){

@@ -3,6 +3,7 @@
     package="com.projet.esgi.meteoesgiv2" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".MeteoApplication"
@@ -12,7 +13,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".Activities.ListeVillesActivity"
-            android:label="Météo ESGI AL1" >
+            android:label="Météo ESGI AL1 V2" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,11 +21,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.VilleActivity"
-            android:label="@string/title_activity_ville" >
-        </activity>
-        <activity
-            android:name=".Activities.ScreenSlidePagerActivity"
+            android:name=".Activities.VilleSliderActivity"
             android:label="@string/title_activity_screen_slide_pager" >
         </activity>
     </application>

@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,7 +17,7 @@ import android.widget.SearchView;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.projet.esgi.meteoesgiv2.MeteoAPI.CurrentWeatherTask;
+import com.projet.esgi.meteoesgiv2.MeteoAPI.FiveDaysWeatherTask;
 import com.projet.esgi.meteoesgiv2.MeteoApplication;
 import com.projet.esgi.meteoesgiv2.R;
 import com.projet.esgi.meteoesgiv2.adapter.AdapterListeVille;
@@ -93,24 +95,24 @@ public class ListeVillesActivity extends Activity {
                     String nomVille = input.getText().toString();
 
                     //ajout de la ville si elle existe
-                    CurrentWeatherTask searchTask = new CurrentWeatherTask();
+                    FiveDaysWeatherTask searchTask = new FiveDaysWeatherTask();
                     searchTask.execute(nomVille, getBaseContext().getString(R.string.langue_API));
                     try{
-                        MeteoData m = searchTask.get();
+                        MeteoData[] m = searchTask.get();
                         if(null == m){
-
+                            Toast.makeText(getApplicationContext(),(R.string.erreur_ville_inconnue),Toast.LENGTH_SHORT).show();
                         }else{
                             Ville v = new Ville();
                             v.setNom(nomVille);
                             v.setMeteoData(m);
-                            lesVillesFavoris.add(v);
+                            //((MeteoApplication)getApplication()).addFavoris(v);
+                            ((MeteoApplication)getApplication()).addVille(v);
+                            lesVilles.add(v);
+                            //lesVillesFavoris.add(v);
                         }
                     }catch (Exception e){
                         Log.e("VilleActivity", "Erreur lors de l'exécution de la tâche asynchrone", e);
                     }
-
-
-                    Toast.makeText(getApplicationContext(),nomVille,Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -127,13 +129,19 @@ public class ListeVillesActivity extends Activity {
     }
 
     public void onVilleChoisieClick(int position){
-        /*Intent intent = new Intent(this,VilleActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("ville", (java.io.Serializable) listeDesVilles.getItemAtPosition(position));
-        intent.putExtras(bundle);
-        startActivity(intent);*/
-        Intent intent = new Intent(this,ScreenSlidePagerActivity.class);
-        startActivity(intent);
+        //test la connexion
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+        if(isConnected){
+            Intent intent = new Intent(this,VilleSliderActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("ville", (java.io.Serializable) listeDesVilles.getItemAtPosition(position));
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }else{
+            Toast.makeText(this, (R.string.erreur_connexion), Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void initFavoris(){
@@ -169,12 +177,7 @@ public class ListeVillesActivity extends Activity {
         //liste des villes
         listeDesVilles = (ListView) findViewById(R.id.listeVille);
         listeDesVilles.setAdapter(adapterVille);
-        /*listeDesVilles.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                onVilleChoisieClick(i);
-            }
-        });*/
+
     }
 
 
@@ -186,10 +189,6 @@ public class ListeVillesActivity extends Activity {
             public boolean onQueryTextSubmit(String query) {
                 // Fetch the data remotely
                 searchVille(query);
-                // Reset SearchView
-                //rechercheVilleListe.clearFocus();
-                //rechercheVilleListe.setQuery("", false);
-                //rechercheVilleListe.setIconified(true);
                 return true;
             }
 
@@ -228,5 +227,10 @@ public class ListeVillesActivity extends Activity {
         lesVillesFavoris.remove(index);
         adapterVille.notifyDataSetChanged();
         listeDesVilles.deferNotifyDataSetChanged();
+    }
+
+    @Override
+    public void onBackPressed() {
+        return;
     }
 }

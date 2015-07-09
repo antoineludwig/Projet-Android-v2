@@ -45,7 +45,7 @@ public class VilleActivity extends Activity {
         laVille = (Ville)i.getSerializableExtra("ville");
 
         initElements();
-        launchSearchTask();
+       // launchSearchTask();
         initAffichageVille();
     }
 
@@ -93,7 +93,7 @@ public class VilleActivity extends Activity {
         }
     }
 
-    private void launchSearchTask() {
+    /*private void launchSearchTask() {
         CurrentWeatherTask searchTask = new CurrentWeatherTask();
         searchTask.execute(laVille.getNom(), getBaseContext().getString(R.string.langue_API));
 
@@ -107,7 +107,7 @@ public class VilleActivity extends Activity {
         }catch (Exception e){
             Log.e("VilleActivity", "Erreur lors de l'exécution de la tâche asynchrone", e);
         }
-    }
+    }*/
 
     /**
      * Sauvegarde des données

@@ -1,6 +1,8 @@
 package com.projet.esgi.meteoesgiv2.modele;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Ville implements Serializable {
     private String nom;
@@ -10,8 +12,10 @@ public class Ville implements Serializable {
 
     private MeteoData meteoData;
 
-    public Ville(){
+    private MeteoData[] lesdatas;
 
+    public Ville(){
+        lesdatas = new MeteoData[4];
     }
 
     public Ville(String _nom){
@@ -56,5 +60,13 @@ public class Ville implements Serializable {
 
     public void setFavoris(boolean favoris) {
         this.favoris = favoris;
+    }
+
+    public MeteoData getMeteoData(int jour) {
+        return lesdatas[jour];
+    }
+
+    public void setMeteoData(MeteoData[] meteoDatas) {
+        this.lesdatas = meteoDatas;
     }
 }
