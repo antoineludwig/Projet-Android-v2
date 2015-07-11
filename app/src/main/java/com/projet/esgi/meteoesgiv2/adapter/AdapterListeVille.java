@@ -1,6 +1,5 @@
 package com.projet.esgi.meteoesgiv2.adapter;
 
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,13 +37,13 @@ public class AdapterListeVille extends ArrayAdapter<Ville> {
         // Populate the data into the template view using the data object
         tvName.setText(ville.getNom());
         tvName.setTextSize(25);
+        //sur clic
         tvName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 listeVilleActivity.onVilleChoisieClick(position);
             }
         });
-
         Button boutonSupp = (Button) convertView.findViewById(R.id.supprimer);
         if(isFavoris) {
             boutonSupp.setOnClickListener(new View.OnClickListener() {

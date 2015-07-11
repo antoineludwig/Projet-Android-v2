@@ -4,13 +4,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -36,11 +36,11 @@ public class ListeVillesActivity extends Activity {
     private static ArrayList<Ville> lesVilles = new ArrayList<Ville>();
     private static ArrayList<Ville> lesVillesFavoris = new ArrayList<Ville>();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_liste_villes);
-
 
         lesVilles = ((MeteoApplication)getApplication()).getLesVilles();
         initListVille(lesVilles,false);
@@ -105,10 +105,8 @@ public class ListeVillesActivity extends Activity {
                             Ville v = new Ville();
                             v.setNom(nomVille);
                             v.setMeteoData(m);
-                            //((MeteoApplication)getApplication()).addFavoris(v);
                             ((MeteoApplication)getApplication()).addVille(v);
                             lesVilles.add(v);
-                            //lesVillesFavoris.add(v);
                         }
                     }catch (Exception e){
                         Log.e("VilleActivity", "Erreur lors de l'exécution de la tâche asynchrone", e);
@@ -129,19 +127,11 @@ public class ListeVillesActivity extends Activity {
     }
 
     public void onVilleChoisieClick(int position){
-        //test la connexion
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-        if(isConnected){
-            Intent intent = new Intent(this,VilleSliderActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("ville", (java.io.Serializable) listeDesVilles.getItemAtPosition(position));
-            intent.putExtras(bundle);
-            startActivity(intent);
-        }else{
-            Toast.makeText(this, (R.string.erreur_connexion), Toast.LENGTH_SHORT).show();
-        }
+        Intent intent = new Intent(this,VilleSliderActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("ville", (java.io.Serializable) listeDesVilles.getItemAtPosition(position));
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     public void initFavoris(){
@@ -173,14 +163,39 @@ public class ListeVillesActivity extends Activity {
     public void initListVille (ArrayList<Ville> listeVilles,boolean isFavoris){
         adapterVille = new AdapterListeVille(this,listeVilles,this,isFavoris);
 
-
         //liste des villes
         listeDesVilles = (ListView) findViewById(R.id.listeVille);
         listeDesVilles.setAdapter(adapterVille);
+        listeDesVilles.setItemsCanFocus(true);
+        registerForContextMenu(listeDesVilles);
 
     }
 
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.add(0, v.getId(), 0, "Ouvrir");
+        menu.add(0, v.getId(), 1, "Supprimer");
+    }
 
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if(item.getTitle()=="Supprimer"){
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+            lesVillesFavoris.remove(info.position);
+            lesVilles.remove(info.position);
+            ((MeteoApplication)getApplication()).removeVille((Ville)listeDesVilles.getItemAtPosition(info.position));
+            ((MeteoApplication)getApplication()).removeFavoris((Ville)listeDesVilles.getItemAtPosition(info.position));
+            adapterVille.notifyDataSetChanged();
+            listeDesVilles.deferNotifyDataSetChanged();
+        }
+        if(item.getTitle()=="Ouvrir"){
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+            onVilleChoisieClick(info.position);
+        }
+
+        return true;
+    }
 
     private void initSearchView() {
         rechercheVilleListe = (SearchView) findViewById(R.id.rechercherVille);

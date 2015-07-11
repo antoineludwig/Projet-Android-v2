@@ -2,10 +2,10 @@ package com.projet.esgi.meteoesgiv2;
 
 import android.app.Application;
 import android.content.SharedPreferences;
-import android.view.View;
 
 import com.projet.esgi.meteoesgiv2.modele.Ville;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -23,7 +23,7 @@ public class MeteoApplication extends Application{
     }
 
     private void initListeVilles() {
-        /*lesVilles.add(new Ville("London"));
+        lesVilles.add(new Ville("London"));
         lesVilles.add(new Ville("Paris"));
         lesVilles.add(new Ville("Madrid"));
         lesVilles.add(new Ville("Berlin"));
@@ -44,7 +44,15 @@ public class MeteoApplication extends Application{
         lesVilles.add(new Ville("Athena"));
         lesVilles.add(new Ville("Kiev"));
         lesVilles.add(new Ville("Detroit"));
-*/
+
+        File f = new File("/data/data/"+getApplicationContext().getPackageName()+"/shared_prefs"+"/villes.xml");
+        if(!f.exists()){
+            for(Ville v : lesVilles){
+                addVille(v);
+            }
+        }
+
+
         SharedPreferences pref = getSharedPreferences(PREF_FILE_NAME_VILLE, MODE_PRIVATE);
         Map<String,?> keys = pref.getAll();
 
@@ -54,17 +62,6 @@ public class MeteoApplication extends Application{
     }
 
     public void initListeVillesFavoris() {
-        /*lesVillesFavoris.clear();
-        SharedPreferences pref = getSharedPreferences(PREF_FILE_NAME_FAV, MODE_PRIVATE);
-        for (Ville v : lesVilles){
-            if(pref.contains(v.getNom())){
-                v.setFavoris(true);
-                lesVillesFavoris.add(v);
-            }
-            else{
-                v.setFavoris(false);
-            }
-        }*/
         SharedPreferences pref = getSharedPreferences(PREF_FILE_NAME_FAV, MODE_PRIVATE);
         Map<String,?> keys = pref.getAll();
 

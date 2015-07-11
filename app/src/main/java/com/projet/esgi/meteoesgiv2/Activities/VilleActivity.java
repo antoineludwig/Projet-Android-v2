@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.projet.esgi.meteoesgiv2.MeteoAPI.CurrentWeatherTask;
 import com.projet.esgi.meteoesgiv2.MeteoApplication;
 import com.projet.esgi.meteoesgiv2.R;
 import com.projet.esgi.meteoesgiv2.modele.MeteoData;

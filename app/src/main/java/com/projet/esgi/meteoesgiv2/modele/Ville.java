@@ -1,8 +1,6 @@
 package com.projet.esgi.meteoesgiv2.modele;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Ville implements Serializable {
     private String nom;
