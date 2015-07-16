@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 
 import com.projet.esgi.meteoesgiv2.Fragments.VilleSlideFragment;
 import com.projet.esgi.meteoesgiv2.MeteoAPI.FiveDaysWeatherTask;
+import com.projet.esgi.meteoesgiv2.MeteoApplication;
 import com.projet.esgi.meteoesgiv2.R;
 import com.projet.esgi.meteoesgiv2.modele.MeteoData;
 import com.projet.esgi.meteoesgiv2.modele.Ville;
@@ -19,6 +20,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -38,11 +43,21 @@ public class VilleSliderActivity extends FragmentActivity {
     private PagerAdapter mPagerAdapter;
     private Ville laVille = new Ville();
 
+    private TextView nomDeLaVille;
+    private Button boutonRetour;
+    private CheckBox checkFavoris;
+
     private static final String FICHIER_CACHE = "cache_donnees_meteo";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ville_slider);
+
+
+        Intent i = getIntent();
+        laVille = (Ville)i.getSerializableExtra("ville");
+
+        initElements();
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
@@ -50,10 +65,37 @@ public class VilleSliderActivity extends FragmentActivity {
         mPager.setAdapter(mPagerAdapter);
 
 
-        Intent i = getIntent();
-        laVille = (Ville)i.getSerializableExtra("ville");
-
         launchSearchTask();
+    }
+
+    private void initElements(){
+
+        nomDeLaVille = (TextView) this.findViewById(R.id.nomVillea);
+        nomDeLaVille.setText(laVille.getNom());
+
+        boutonRetour = (Button) this.findViewById(R.id.getBack);
+        checkFavoris = (CheckBox) this.findViewById(R.id.isFavori);
+        checkFavoris.setChecked(laVille.isFavoris());
+
+        boutonRetour.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(getApplicationContext(),ListeVillesActivity.class);
+                startActivity(intent);
+            }
+        });
+        checkFavoris.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(checkFavoris.isChecked()){
+                    ((MeteoApplication)getApplication()).addFavoris(laVille);
+                }else{
+                    ((MeteoApplication)getApplication()).removeFavoris(laVille);
+                }
+            }
+        });
     }
 
     private void launchSearchTask() {

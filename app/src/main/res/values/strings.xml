@@ -20,7 +20,7 @@
     <string name="temp">-°C</string>
     <string name="datePrevision">01/01/2000</string>
     <string name="description"></string>
-    <string name="aPropos">Cette application a été développer dans le cadre d\'un projet Android en 5ème année à l\'ESGI</string>
+    <string name="aPropos">Cette application a été développée dans le cadre d\'un projet Android en 5ème année AL à l\'ESGI</string>
     <string name="action_settings">Settings</string>
 
 </resources>

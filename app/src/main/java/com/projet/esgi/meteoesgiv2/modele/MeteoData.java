@@ -3,6 +3,10 @@ package com.projet.esgi.meteoesgiv2.modele;
 import com.projet.esgi.meteoesgiv2.R;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.DateFormatSymbols;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class MeteoData  implements Serializable {
@@ -110,7 +114,16 @@ public class MeteoData  implements Serializable {
     }
 
     public String getDatePrevision() {
-        return datePrevision;
+        SimpleDateFormat formatSource = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateFormat formatDestination = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.MEDIUM);
+
+        String dateString ="";
+        try {
+            Date   date       = formatSource.parse ( datePrevision );
+            dateString = formatDestination.format(date);
+        } catch (ParseException e) {
+        }
+        return dateString;
     }
 
     public void setDatePrevision(String datePrevision) {

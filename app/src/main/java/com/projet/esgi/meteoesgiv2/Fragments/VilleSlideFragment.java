@@ -24,10 +24,6 @@ import com.projet.esgi.meteoesgiv2.modele.Ville;
 public class VilleSlideFragment extends Fragment {
     public ViewGroup rootView;
 
-    private Button boutonRetour;
-    private CheckBox checkFavoris;
-    private TextView nomDeLaVille;
-
     private Ville laVille = new Ville();
     private int pos;
 
@@ -55,44 +51,12 @@ public class VilleSlideFragment extends Fragment {
         rootView = (ViewGroup) inflater.inflate(
                 R.layout.fragment_ville_slide, container, false);
 
-        initElements();
         initAffichageVille(pos);
 
         return rootView;
     }
 
-    private void initElements(){
-        boutonRetour = (Button) rootView.findViewById(R.id.retour);
-        checkFavoris = (CheckBox) rootView.getRootView().findViewById(R.id.favoris);
-        nomDeLaVille = (TextView) rootView.findViewById(R.id.nomVille);
-        checkFavoris.setChecked(laVille.isFavoris());
-
-        boutonRetour.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(rootView.getContext(),ListeVillesActivity.class);
-                startActivity(intent);
-            }
-        });
-        checkFavoris.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if(checkFavoris.isChecked()){
-                    ((MeteoApplication)getActivity().getApplication()).addFavoris(laVille);
-                }else{
-                    ((MeteoApplication)getActivity().getApplication()).removeFavoris(laVille);
-                }
-
-
-            }
-        });
-    }
-
     private void initAffichageVille(int jour) {
-
-        nomDeLaVille.setText(laVille.getNom());
 
         MeteoData meteoData = laVille.getMeteoData(jour);
 

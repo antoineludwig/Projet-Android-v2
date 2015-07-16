@@ -50,7 +50,7 @@ public class VilleActivity extends Activity {
 
     private void initElements(){
         boutonRetour = (Button) findViewById(R.id.retour);
-        checkFavoris = (CheckBox) findViewById(R.id.favoris);
+        checkFavoris = (CheckBox) findViewById(R.id.isFavori);
         checkFavoris.setChecked(laVille.isFavoris());
         boutonRetour.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +76,7 @@ public class VilleActivity extends Activity {
     }
 
     private void initAffichageVille() {
-        TextView nomDeLaVille = (TextView)findViewById(R.id.nomVille);
+        TextView nomDeLaVille = (TextView)findViewById(R.id.nomVillea);
         nomDeLaVille.setText(laVille.getNom());
 
         MeteoData meteoData = laVille.getMeteoData();

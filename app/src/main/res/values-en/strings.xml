@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Meteo ESGI AL1</string>
+    <string name="aPropos">This app has been designed for a ESGI Project</string>
+    <string name="action_ajout_ville">Add a new city in the list</string>
+    <string name="action_apropos">About</string>
+    <string name="erreur_connexion">No data access</string>
+    <string name="erreur_recup_donnees">Error during retrieving the data</string>
+    <string name="erreur_ville_inconnue">City not found</string>
+    <string name="favoris">Favorites</string>
+    <string name="retour">Back</string>
+    <string name="title_activity_liste_ville">Cities List</string>
+    <string name="title_activity_liste_ville_favoris">Favorites</string>
+    <string name="title_activity_screen_slide_pager">Weather 5days forecast</string>
 </resources>
